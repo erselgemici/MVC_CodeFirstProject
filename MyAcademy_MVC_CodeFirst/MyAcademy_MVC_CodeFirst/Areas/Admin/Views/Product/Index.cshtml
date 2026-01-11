@@ -1,0 +1,40 @@
+@model List<MyAcademy_MVC_CodeFirst.Data.Entities.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+
+<h2>Ürünler</h2>
+
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Ürün Adı</th>
+        <th>Görsel</th>
+        <th>Açıklama</th>
+        <th>Fiyat</th>
+        <th>Kategori</th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <th>@item.Name</th>
+            <td><img src="@item.ImageUrl" style="height:75px;width:75px" /></td>
+            <th>@item.Description</th>
+            <th>@item.Price ₺</th>
+            <th>@item.Category.Name</th>
+            <td>
+                <a href="/Admin/Product/DeleteProduct/@item.Id" class="btn btn-outline-danger">Sil</a>
+                <a href="/Admin/Product/UpdateProduct/@item.Id" class="btn btn-outline-info">Güncelle</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<a href="/Admin/Product/CreateProduct" class="btn btn-outline-dark">Yeni Ürün Oluştur</a>

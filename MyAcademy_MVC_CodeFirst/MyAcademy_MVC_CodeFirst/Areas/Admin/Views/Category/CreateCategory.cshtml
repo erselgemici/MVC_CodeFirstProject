@@ -1,0 +1,14 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Category
+@{
+    ViewBag.Title = "CreateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Yeni Kategori Oluştur</h2>
+
+<form method="post">
+    <label>Kategori Adı</label>
+    @Html.TextBoxFor(x=>x.Name, new {@class="form-control" })
+    <br />
+    <button class="btn btn-outline-dark">Kaydet</button>
+</form>

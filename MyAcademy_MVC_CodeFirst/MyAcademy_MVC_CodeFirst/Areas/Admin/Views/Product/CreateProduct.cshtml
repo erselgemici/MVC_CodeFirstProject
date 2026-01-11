@@ -1,0 +1,27 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Product
+@{
+    ViewBag.Title = "CreateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Yeni Ürün Oluştur</h2>
+
+<form method="post">
+    <label>Ürün Adı</label>
+    <input type="text" name="Name" class="form-control" required />
+    <br />
+    <label>Ürün Açıklaması</label>
+    <textarea type="text" name="Description" class="form-control" required rows="5"></textarea>
+    <br />
+    <label>Görsel Url</label>
+    <input type="text" name="ImageUrl" class="form-control" required />
+    <br />
+    <label>Fiyat</label>
+    <input type="number" name="Price" class="form-control" required />
+    <br />
+    <label>Kategori</label>
+    @Html.DropDownListFor(x=>x.CategoryId, (List<SelectListItem>)ViewBag.categories, "Kategori Seçiniz", new {@class="form-control"})
+    <br />
+    <button class="btn btn-outline-dark">Kaydet</button>
+</form>
+

@@ -1,0 +1,27 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Product
+@{
+    ViewBag.Title = "UpdateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Ürün Güncelle</h2>
+
+<form method="post">
+    @Html.HiddenFor(x => x.Id)
+    <label>Ürün Adı</label>
+    <input type="text" name="Name" value="@Model.Name" class="form-control" required />
+    <br />
+    <label>Ürün Açıklaması</label>
+    <textarea name="Description"  class="form-control" required rows="5">@Model.Description</textarea>
+    <br />
+    <label>Görsel Url</label>
+    <input type="text" name="ImageUrl" value="@Model.ImageUrl" class="form-control" required />
+    <br />
+    <label>Fiyat</label>
+    <input type="text" name="Price" value="@Model.Price" class="form-control" required />
+    <br />
+    <label>Kategori</label>
+    @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.categories, "Kategori Seçiniz", new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-dark">Güncelle</button>
+</form>
