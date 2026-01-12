@@ -1,0 +1,36 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Sale
+@{
+    ViewBag.Title = "CreateSale";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="max-w-xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-slate-800">Manuel Satış Girişi</h3>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6 ring-1 ring-slate-200">
+        @using (Html.BeginForm("CreateSale", "Sales", FormMethod.Post))
+        {
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Müşteri Seçin</label>
+                    @Html.DropDownListFor(x => x.CustomerID, (List<SelectListItem>)ViewBag.Customers, "Müşteri Seçiniz...", new { @class = "w-full rounded-lg border-slate-300 focus:ring-primary/20 text-sm" })
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Poliçe Seçin</label>
+                    @Html.DropDownListFor(x => x.PolicyID, (List<SelectListItem>)ViewBag.Policies, "Poliçe Seçiniz...", new { @class = "w-full rounded-lg border-slate-300 focus:ring-primary/20 text-sm" })
+                </div>
+
+                <div class="bg-blue-50 p-3 rounded text-xs text-blue-700">
+                    <i class="fas fa-info-circle me-1"></i> Fiyat bilgisi seçilen poliçeden otomatik alınacaktır.
+                </div>
+
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">
+                    <i class="fas fa-check me-2"></i> Satışı Onayla
+                </button>
+            </div>
+        }
+    </div>
+</div>
+

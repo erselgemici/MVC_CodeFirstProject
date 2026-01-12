@@ -1,34 +1,78 @@
-@model List<MyAcademy_MVC_CodeFirst.Data.Entities.Category>
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<InsuranceCategory>
+
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Kategoriler";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     int count = 0;
 }
 
-<h2>Kategoriler</h2>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-bold text-slate-800">Kategori Listesi</h3>
+        <a href="/Admin/Category/CreateCategory" class="bg-primary text-white text-sm py-2 px-4 rounded hover:bg-blue-700 transition">
+            <i class="fas fa-plus me-1"></i> Yeni Kategori
+        </a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 font-bold">
+                    <th class="px-4 py-3">#</th>
+                    <th class="px-4 py-3">İkon</th>
+                    <th class="px-4 py-3">Kategori Adı</th>
+                    <th class="px-4 py-3 text-right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 font-medium">@count</td>
+                        <td class="px-4 py-3 text-primary text-lg">
+                            <i class="@item.IconClass"></i>
+                        </td>
+                        <td class="px-4 py-3 font-semibold text-slate-700">@item.CategoryName</td>
+                        <td class="px-4 py-3 text-right">
+                            <a href="/Admin/Category/UpdateCategory/@item.CategoryID" class="text-blue-500 hover:text-blue-700 mx-2" title="Düzenle">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="/Admin/Category/DeleteCategory/@item.CategoryID" class="text-red-500 hover:text-red-700 mx-2 btn-delete" title="Sil">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault(); // Linkin hemen gitmesini engelle
 
-<table class="table table-hover">
-    <tr>
-        <th>#</th>
-        <th>Kategori Adı</th>
-        <th>İşlemler</th>
-    </tr>
+        var deleteUrl = $(this).attr('href'); // Silinecek linki al (Örn: /Admin/Category/Delete/5)
 
-    @foreach (var item in Model)
-    {
-        count++;
-        <tr>
-            <th>@count</th>
-            <th>@item.Name</th>
-            <td>
-                <a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-outline-danger">Sil</a>
-                <a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-outline-info">Güncelle</a>
-            </td>
-        </tr>
-    }
-
-</table>
-
-<a href="/Admin/Category/CreateCategory" class="btn btn-outline-dark">Yeni Kategori Oluştur</a>
-
-
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: "Bu kaydı sildikten sonra geri alamazsınız!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet, Sil!',
+            cancelButtonText: 'Vazgeç',
+            background: '#fff',
+            customClass: {
+                popup: 'rounded-xl shadow-lg', 
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Kullanıcı Evet'e bastıysa linke git
+                window.location.href = deleteUrl;
+            }
+        });
+    });
+</script>

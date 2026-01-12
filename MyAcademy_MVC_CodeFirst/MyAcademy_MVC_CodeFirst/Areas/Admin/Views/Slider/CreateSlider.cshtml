@@ -1,0 +1,21 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Slider
+
+@{
+    ViewBag.Title = "Slider Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="max-w-xl mx-auto bg-white rounded-xl shadow-sm p-6">
+    <h3 class="text-xl font-bold text-slate-800 mb-6">Slider Ekle</h3>
+    @using (Html.BeginForm())
+    {
+        <div class="space-y-4">
+            <div><label class="block text-sm font-medium mb-1">Başlık</label>@Html.TextBoxFor(x => x.Title, new { @class = "w-full rounded-lg border-slate-300 text-sm" })</div>
+            <div><label class="block text-sm font-medium mb-1">Açıklama</label>@Html.TextAreaFor(x => x.Description, new { @class = "w-full rounded-lg border-slate-300 text-sm", rows = 3 })</div>
+            <div><label class="block text-sm font-medium mb-1">Resim Yolu</label>@Html.TextBoxFor(x => x.ImageUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm", placeholder = "~/Theme/img/..." })</div>
+            <div><label class="block text-sm font-medium mb-1">Video Linki</label>@Html.TextBoxFor(x => x.VideoUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm" })</div>
+            <button class="w-full bg-primary text-white py-2 rounded-lg font-bold mt-4">Kaydet</button>
+        </div>
+    }
+</div>
+

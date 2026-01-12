@@ -1,15 +1,50 @@
-@model MyAcademy_MVC_CodeFirst.Data.Entities.Category
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model InsuranceCategory
+
 @{
-    ViewBag.Title = "UpdateCategory";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Kategori Düzenle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Kategori Güncelle</h2>
+<div class="max-w-2xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-slate-800">Kategori Düzenle</h3>
+        <a href="/Admin/Category/Index" class="text-sm font-medium text-slate-500 hover:text-slate-700">
+            <i class="fas fa-arrow-left me-1"></i> Listeye Dön
+        </a>
+    </div>
 
-<form method="post">
-    @Html.HiddenFor(x => x.Id)
-    <label>Kategori Adı</label>
-    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
-    <br />
-    <button class="btn btn-outline-dark">Kaydet</button>
-</form>
+    <div class="bg-white rounded-xl shadow-sm ring-1 ring-slate-200 p-6">
+        @using (Html.BeginForm("UpdateCategory", "Category", FormMethod.Post))
+        {
+            @Html.HiddenFor(x => x.CategoryID)
+
+            <div class="space-y-6">
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Kategori Adı</label>
+                    @Html.TextBoxFor(x => x.CategoryName, new { @class = "w-full rounded-lg border-slate-300 focus:border-primary focus:ring focus:ring-primary/20 text-sm" })
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">İkon Sınıfı</label>
+                    <div class="flex gap-3">
+                        @Html.TextBoxFor(x => x.IconClass, new { @class = "flex-1 rounded-lg border-slate-300 focus:border-primary focus:ring focus:ring-primary/20 text-sm" })
+                        <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary border border-primary/20" title="Şu anki ikon">
+                            <i class="@Model.IconClass"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex items-center gap-3">
+                    <button type="submit" class="bg-primary text-white text-sm font-bold py-2.5 px-6 rounded-lg hover:bg-blue-700 transition w-full sm:w-auto">
+                        <i class="fas fa-sync-alt me-2"></i> Güncelle
+                    </button>
+                    <a href="/Admin/Category/Index" class="bg-slate-100 text-slate-600 text-sm font-bold py-2.5 px-6 rounded-lg hover:bg-slate-200 transition w-full sm:w-auto text-center">
+                        Vazgeç
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

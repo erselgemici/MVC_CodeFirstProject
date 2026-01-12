@@ -1,0 +1,99 @@
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<Sale>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Toplam Ciro</p>
+                <h3 class="text-xl font-bold text-slate-900 mt-1">@Convert.ToDecimal(ViewBag.TotalSales).ToString("C0")</h3>
+            </div>
+            <div class="text-blue-500 opacity-20 text-3xl">
+                <i class="fas fa-lira-sign"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri Sayısı</p>
+                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalCustomers</h3>
+            </div>
+            <div class="text-green-500 opacity-20 text-3xl">
+                <i class="fas fa-users"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-lg border-l-4 border-yellow-500 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Aktif Poliçeler</p>
+                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalPolicies</h3>
+            </div>
+            <div class="text-yellow-500 opacity-20 text-3xl">
+                <i class="fas fa-file-contract"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-lg border-l-4 border-red-500 shadow-sm">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gelen Mesajlar</p>
+                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalMessages</h3>
+            </div>
+            <div class="text-red-500 opacity-20 text-3xl">
+                <i class="fas fa-envelope"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-bold text-slate-800">Son Satış Hareketleri</h3>
+        <a href="/Admin/Sales/Index" class="text-xs font-semibold text-primary">Tümünü Gör</a>
+    </div>
+    <div class="overflow-x-auto no-scrollbar">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-bold">
+                    <th class="px-4 py-3">Müşteri</th>
+                    <th class="px-4 py-3">Poliçe Adı</th>
+                    <th class="px-4 py-3">Tarih</th>
+                    <th class="px-4 py-3">Tutar</th>
+                    <th class="px-4 py-3">Durum</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs uppercase">
+                                    @item.Customer.FirstName.Substring(0, 1)
+                                </div>
+                                <span class="font-medium text-slate-800">@item.Customer.FirstName @item.Customer.LastName</span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-slate-600">@item.InsurancePolicy.PolicyName</td>
+                        <td class="px-4 py-3 text-slate-500">@item.SaleDate.ToString("dd.MM.yyyy")</td>
+                        <td class="px-4 py-3 font-bold text-slate-800">@item.Amount.ToString("C0")</td>
+                        <td class="px-4 py-3">
+                            <span class="px-2 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">Tamamlandı</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

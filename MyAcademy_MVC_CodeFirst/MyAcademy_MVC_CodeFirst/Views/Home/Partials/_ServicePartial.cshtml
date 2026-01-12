@@ -1,0 +1,37 @@
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<InsurancePolicy>
+
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <h4 class="text-primary">Hizmetlerimiz</h4>
+            <h1 class="display-4 mb-4">En İyi Hizmeti Sunuyoruz</h1>
+            <p class="mb-0">Size özel seçilmiş en uygun sigorta paketleri.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="service-item">
+                        <div class="service-img">
+                            <img src="@Url.Content(item.ImageUrl)" class="img-fluid rounded-top w-100" alt="">
+                            <div class="service-icon p-3">
+                                <i class="fa fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="service-content p-4">
+                            <div class="service-content-inner">
+                                <a href="#" class="d-inline-block h4 mb-4">@item.PolicyName</a>
+                                <p class="mb-4">@item.Description.Substring(0, item.Description.Length > 50 ? 50 : item.Description.Length)...</p>
+                                <h5 class="text-primary mb-3">@item.Price.ToString("C0")</h5>
+                                <a class="btn btn-primary rounded-pill py-2 px-4" href="#">Satın Al</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

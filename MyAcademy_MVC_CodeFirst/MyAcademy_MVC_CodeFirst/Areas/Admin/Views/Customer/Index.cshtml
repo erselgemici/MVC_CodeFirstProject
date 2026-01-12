@@ -1,0 +1,170 @@
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<MyAcademy_MVC_CodeFirst.Data.Entities.Customer>
+
+@{
+    ViewBag.Title = "Müşteri Listesi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        gap: 5px;
+    }
+
+        .pagination li a {
+            color: #0d6efd;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background-color: #fff;
+            transition: all 0.3s;
+        }
+
+        .pagination li.active a {
+            background-color: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+
+        .pagination li a:hover {
+            background-color: #e9ecef;
+        }
+</style>
+
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+
+    <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h3 class="font-bold text-slate-800 text-lg">Müşteri Listesi (@Model.TotalItemCount)</h3>
+
+        <div class="flex flex-1 items-center gap-3 justify-end">
+
+            @using (Html.BeginForm("Index", "Customer", FormMethod.Get, new { @class = "relative w-full max-w-md" }))
+            {
+                <div class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" name="search" value="@ViewBag.Search" class="w-full pl-10 pr-16 py-2 rounded-lg border border-slate-300 focus:border-primary focus:ring-1 focus:ring-primary text-sm" placeholder="Ad, Soyad Ara..." />
+
+                    <button type="submit" class="absolute right-0 top-0 h-full px-4 text-white bg-primary rounded-r-lg hover:bg-blue-700 transition text-sm font-medium">
+                        Ara
+                    </button>
+                </div>
+            }
+
+            <a href="/Admin/Customer/CreateCustomer" class="bg-primary text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center shrink-0">
+                <i class="fas fa-user-plus me-2"></i> Yeni
+            </a>
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 font-bold border-b border-slate-100">
+                    <th class="px-6 py-3">#</th>
+                    <th class="px-6 py-3">Müşteri</th>
+                    <th class="px-6 py-3">İletişim</th>
+                    <th class="px-6 py-3">Şehir</th>
+                    <th class="px-6 py-3 text-right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-slate-50 transition duration-150">
+                            <td class="px-6 py-4 font-medium text-slate-500">@item.CustomerID</td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs uppercase border border-blue-100">
+                                        @(!string.IsNullOrEmpty(item.FirstName) ? item.FirstName.Substring(0, 1) : "-")
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-slate-700">@item.FirstName @item.LastName</p>
+                                        <p class="text-xs text-slate-400">
+                                            Kayıt: @(item.CreatedAt != DateTime.MinValue ? item.CreatedAt.ToString("dd.MM.yyyy") : "-")
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-slate-600">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-xs"><i class="fas fa-envelope text-slate-400 me-2"></i>@item.Email</span>
+                                    <span class="text-xs"><i class="fas fa-phone text-slate-400 me-2"></i>@item.Phone</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded border border-slate-200 font-medium">
+                                    @item.City
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="/Admin/Customer/UpdateCustomer/@item.CustomerID" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Düzenle">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/Admin/Customer/DeleteCustomer/@item.CustomerID" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition btn-delete" title="Sil">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-slate-400">
+                            <i class="fas fa-search mb-2 text-2xl block"></i>
+                            Kayıt bulunamadı.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="p-4 border-t border-slate-100 bg-slate-50">
+        <div class="flex flex-col items-center justify-center">
+            <span class="text-xs text-slate-500 mb-2">Toplam @Model.TotalItemCount kayıttan @Model.FirstItemOnPage - @Model.LastItemOnPage arası</span>
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, search = ViewBag.Search }))
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();
+        var deleteUrl = $(this).attr('href');
+        Swal.fire({
+            title: 'Silmek İstiyor musunuz?',
+            text: "Bu işlem geri alınamaz!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Evet, Sil',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = deleteUrl;
+            }
+        });
+    });
+</script>
