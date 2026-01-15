@@ -1,0 +1,45 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.TeamMember
+
+@{
+    ViewBag.Title = "Takım Üyesi Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="max-w-xl mx-auto bg-white rounded-xl shadow-sm p-6">
+    <h3 class="text-xl font-bold text-slate-800 mb-6">Ekip Üyesi Formu</h3>
+    @using (Html.BeginForm())
+    {
+        <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Ad Soyad</label>
+                    @Html.TextBoxFor(x => x.FullName, new { @class = "w-full rounded-lg border-slate-300 text-sm" })
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Unvan</label>
+                    @Html.TextBoxFor(x => x.Title, new { @class = "w-full rounded-lg border-slate-300 text-sm" })
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Resim Yolu</label>
+                @Html.TextBoxFor(x => x.ImageUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm", placeholder = "~/Theme/img/team-1.jpg" })
+            </div>
+
+            <h4 class="text-xs font-bold text-slate-400 uppercase mt-4 border-b pb-1">Sosyal Medya</h4>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs text-slate-500 mb-1">Twitter URL</label>
+                    @Html.TextBoxFor(x => x.TwitterUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm" })
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-500 mb-1">LinkedIn URL</label>
+                    @Html.TextBoxFor(x => x.LinkedInUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm" })
+                </div>
+            </div>
+
+            <button class="w-full bg-primary text-white py-2 rounded-lg font-bold mt-4">Kaydet</button>
+        </div>
+    }
+</div>
+

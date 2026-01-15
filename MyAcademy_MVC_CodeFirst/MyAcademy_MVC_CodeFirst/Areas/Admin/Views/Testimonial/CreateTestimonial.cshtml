@@ -1,0 +1,21 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Testimonial
+
+@{
+    ViewBag.Title = "Yorum Ekle";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="max-w-xl mx-auto bg-white rounded-xl shadow-sm p-6">
+    <h3 class="text-xl font-bold text-slate-800 mb-6">Yorum Ekle/Düzenle</h3>
+    @using (Html.BeginForm())
+    {
+        <div class="space-y-4">
+            <div><label class="block text-sm font-medium mb-1">Ad Soyad</label>@Html.TextBoxFor(x => x.ClientName, new { @class = "w-full rounded-lg border-slate-300 text-sm" })</div>
+            <div><label class="block text-sm font-medium mb-1">Unvan / Meslek</label>@Html.TextBoxFor(x => x.Profession, new { @class = "w-full rounded-lg border-slate-300 text-sm", placeholder = "Örn: Genel Müdür" })</div>
+            <div><label class="block text-sm font-medium mb-1">Yorum</label>@Html.TextAreaFor(x => x.Comment, new { @class = "w-full rounded-lg border-slate-300 text-sm", rows = 4 })</div>
+            <div><label class="block text-sm font-medium mb-1">Resim Yolu</label>@Html.TextBoxFor(x => x.ImageUrl, new { @class = "w-full rounded-lg border-slate-300 text-sm", placeholder = "~/Theme/img/testimonial-1.jpg" })</div>
+            <button class="w-full bg-primary text-white py-2 rounded-lg font-bold mt-4">Kaydet</button>
+        </div>
+    }
+</div>
+

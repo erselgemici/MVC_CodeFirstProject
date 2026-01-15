@@ -1,0 +1,42 @@
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<Sale>
+@{
+    ViewBag.Title = "MySales";
+    Layout = "~/Areas/Staff/Views/Shared/_StaffLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Satış Geçmişi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h3 class="mb-3">Son Satış İşlemleri</h3>
+        <table class="table table-hover bg-white shadow-sm rounded">
+            <thead class="table-dark">
+                <tr>
+                    <th>Müşteri</th>
+                    <th>Poliçe</th>
+                    <th>Tarih</th>
+                    <th>Tutar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.Customer != null ? item.Customer.FirstName + " " + item.Customer.LastName : "Silinmiş Müşteri")</td>
+                        <td>@(item.InsurancePolicy != null ? item.InsurancePolicy.PolicyName : "Silinmiş Poliçe")</td>
+                        <td>@item.SaleDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>₺@item.Amount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="/Staff/Dashboard/Index" class="btn btn-primary">Dashboard'a Dön</a>
+    </div>
+</body>
+</html>
+

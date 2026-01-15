@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - LifeSure Personel</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d6efd",     /* LifeSure Mavisi */
+                        "navy-dark": "#1e293b",   /* Staff için biraz daha açık ton */
+                        "background-light": "#f4f6f9",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            background-color: #f4f6f9;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-900 font-sans">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <aside class="hidden md:flex flex-col w-64 bg-navy-dark text-white shrink-0 shadow-xl">
+            <div class="p-6 flex items-center gap-3 border-b border-white/10">
+                <div class="bg-primary p-2 rounded-lg shadow-lg">
+                    <span class="material-symbols-outlined text-white">badge</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight leading-none">LifeSure</h1>
+                    <span class="text-xs text-blue-300 font-medium tracking-widest">PERSONEL</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-4 space-y-6">
+
+                <div>
+                    <a class="flex items-center gap-3 px-4 py-3 bg-primary/90 hover:bg-primary rounded-lg text-white mb-2 shadow-md transition-all" href="/Staff/Dashboard/Index">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span class="font-medium">Genel Bakış</span>
+                    </a>
+                </div>
+
+                <div>
+                    <h3 class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Satış & Müşteri</h3>
+                    <div class="space-y-1">
+                        <a href="/Staff/Sales/NewSale" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 hover:text-white rounded-lg transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-green-400">add_circle</span>
+                            <span class="text-sm">Yeni Satış Gir</span>
+                        </a>
+                        <a href="/Staff/Sales/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 hover:text-white rounded-lg transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-blue-400">history</span>
+                            <span class="text-sm">Satış Geçmişim</span>
+                        </a>
+                        <a href="/Staff/Customer/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 hover:text-white rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">group</span>
+                            <span class="text-sm">Müşterilerim</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Hesabım</h3>
+                    <div class="space-y-1">
+                        <a href="/Staff/Profile/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">person</span>
+                            <span class="text-sm">Profilim</span>
+                        </a>
+                        <a href="/Account/Logout" class="flex items-center gap-3 px-4 py-2 text-red-300 hover:bg-red-500/20 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">logout</span>
+                            <span class="text-sm">Güvenli Çıkış</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="p-4 border-t border-white/10 text-center">
+                <p class="text-xs text-slate-500">LifeSure v2.0 &copy; 2026</p>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-hidden relative">
+
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 shadow-sm z-10">
+                <div class="flex items-center gap-3">
+                    <button class="md:hidden text-slate-600 hover:bg-slate-100 p-2 rounded-lg">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-bold text-slate-800">@ViewBag.Title</h2>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+
+                    <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-bold text-slate-800 leading-none">
+                                @(Session["FullName"] != null ? Session["FullName"] : "Personel")
+                            </p>
+                            <p class="text-[11px] text-slate-500 font-medium">@Session["Role"]</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 p-0.5">
+                            <img src="https://ui-avatars.com/api/?name=@(Session["FullName"])&background=0d6efd&color=fff&bold=true"
+                                 class="w-full h-full rounded-full object-cover" alt="User" />
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-background-light">
+                @RenderBody()
+            </main>
+
+        </div>
+    </div>
+
+    <script>
+        let docTitle = document.title;
+        window.addEventListener("blur", () => { document.title = "⏳ Satış bekliyor..."; });
+        window.addEventListener("focus", () => { document.title = docTitle; });
+    </script>
+</body>
+</html>

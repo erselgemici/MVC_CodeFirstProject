@@ -21,5 +21,7 @@ namespace MyAcademy_MVC_CodeFirst.Data.Context
         public DbSet<Feature> Features { get; set; }
         public DbSet<About> Abouts { get; set; }
         public DbSet<CompanySetting> CompanySettings { get; set; }
+
+        public DbSet<AppUser> AppUsers { get; set; }
     }
 }

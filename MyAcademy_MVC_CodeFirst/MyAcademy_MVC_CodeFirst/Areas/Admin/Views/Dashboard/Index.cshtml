@@ -4,96 +4,361 @@
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var pastData = ViewBag.PastData as List<MyAcademy_MVC_CodeFirst.Models.SalesData>;
+    var futureData = ViewBag.FutureData as List<MyAcademy_MVC_CodeFirst.Models.SalesData>;
 }
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-
-    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500 shadow-sm">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Toplam Ciro</p>
-                <h3 class="text-xl font-bold text-slate-900 mt-1">@Convert.ToDecimal(ViewBag.TotalSales).ToString("C0")</h3>
-            </div>
-            <div class="text-blue-500 opacity-20 text-3xl">
-                <i class="fas fa-lira-sign"></i>
-            </div>
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center hover:shadow-md transition-shadow">
+        <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Toplam Ciro</p>
+            <h3 class="text-2xl font-black text-slate-800 mt-1">@Convert.ToDecimal(ViewBag.TotalSales).ToString("C0")</h3>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl">
+            <i class="fas fa-wallet"></i>
         </div>
     </div>
-
-    <div class="bg-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri Sayısı</p>
-                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalCustomers</h3>
-            </div>
-            <div class="text-green-500 opacity-20 text-3xl">
-                <i class="fas fa-users"></i>
-            </div>
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center hover:shadow-md transition-shadow">
+        <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Müşteriler</p>
+            <h3 class="text-2xl font-black text-slate-800 mt-1">@ViewBag.TotalCustomers</h3>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-xl">
+            <i class="fas fa-users"></i>
         </div>
     </div>
-
-    <div class="bg-white p-4 rounded-lg border-l-4 border-yellow-500 shadow-sm">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Aktif Poliçeler</p>
-                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalPolicies</h3>
-            </div>
-            <div class="text-yellow-500 opacity-20 text-3xl">
-                <i class="fas fa-file-contract"></i>
-            </div>
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center hover:shadow-md transition-shadow">
+        <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Poliçeler</p>
+            <h3 class="text-2xl font-black text-slate-800 mt-1">@ViewBag.TotalPolicies</h3>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 text-xl">
+            <i class="fas fa-file-contract"></i>
         </div>
     </div>
-
-    <div class="bg-white p-4 rounded-lg border-l-4 border-red-500 shadow-sm">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Gelen Mesajlar</p>
-                <h3 class="text-xl font-bold text-slate-900 mt-1">@ViewBag.TotalMessages</h3>
-            </div>
-            <div class="text-red-500 opacity-20 text-3xl">
-                <i class="fas fa-envelope"></i>
-            </div>
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center hover:shadow-md transition-shadow">
+        <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mesajlar</p>
+            <h3 class="text-2xl font-black text-slate-800 mt-1">@ViewBag.TotalMessages</h3>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600 text-xl">
+            <i class="fas fa-envelope"></i>
         </div>
     </div>
 </div>
 
-<div class="bg-white rounded-lg shadow-sm overflow-hidden">
-    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-        <h3 class="font-bold text-slate-800">Son Satış Hareketleri</h3>
-        <a href="/Admin/Sales/Index" class="text-xs font-semibold text-primary">Tümünü Gör</a>
+<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h3 class="font-bold text-slate-800 text-lg">Finansal Büyüme & AI Projeksiyonu</h3>
+            <p class="text-xs text-slate-400">Gerçekleşen veriler ve yapay zeka tahmin algoritmaları</p>
+        </div>
+        <div class="flex gap-2">
+            <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">Gerçekleşen</span>
+            <span class="text-[10px] font-bold bg-rose-50 text-rose-600 px-3 py-1 rounded-full animate-pulse">AI Tahmini</span>
+        </div>
     </div>
-    <div class="overflow-x-auto no-scrollbar">
-        <table class="w-full text-left">
+    <div class="h-72 w-full">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+        <h3 class="font-bold text-slate-800 text-sm mb-4">Şehir Analizi: Geçmiş vs Gelecek</h3>
+        <div class="h-48">
+            <canvas id="cityComparisonChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+        <h3 class="font-bold text-slate-800 text-sm mb-4">En Çok Satan Poliçeler</h3>
+        <div class="h-48 flex justify-center">
+            <canvas id="productChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+        <h3 class="font-bold text-slate-800 text-sm mb-4">Portföy Dağılımı (Radar)</h3>
+        <div class="h-48 flex justify-center">
+            <canvas id="radarChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+    <div class="p-5 border-b border-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800">Canlı İşlem Akışı</h3>
+        <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+        </span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
             <thead>
-                <tr class="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-bold">
-                    <th class="px-4 py-3">Müşteri</th>
-                    <th class="px-4 py-3">Poliçe Adı</th>
-                    <th class="px-4 py-3">Tarih</th>
-                    <th class="px-4 py-3">Tutar</th>
-                    <th class="px-4 py-3">Durum</th>
+                <tr class="bg-slate-50 text-xs uppercase text-slate-400 border-b border-slate-100">
+                    <th class="px-6 py-4 font-semibold">Müşteri</th>
+                    <th class="px-6 py-4 font-semibold">Şehir</th>
+                    <th class="px-6 py-4 font-semibold">Poliçe</th>
+                    <th class="px-6 py-4 font-semibold">Tarih</th>
+                    <th class="px-6 py-4 font-semibold text-right">Tutar</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100 text-sm">
+            <tbody class="divide-y divide-slate-50">
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td class="px-4 py-3">
+                    <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs uppercase">
-                                    @item.Customer.FirstName.Substring(0, 1)
+                                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold uppercase shadow-sm">
+                                    @if (item.Customer != null)
+                                    {@item.Customer.FirstName.Substring(0, 1)}
                                 </div>
-                                <span class="font-medium text-slate-800">@item.Customer.FirstName @item.Customer.LastName</span>
+                                <span class="font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">
+                                    @item.Customer.FirstName @item.Customer.LastName
+                                </span>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-slate-600">@item.InsurancePolicy.PolicyName</td>
-                        <td class="px-4 py-3 text-slate-500">@item.SaleDate.ToString("dd.MM.yyyy")</td>
-                        <td class="px-4 py-3 font-bold text-slate-800">@item.Amount.ToString("C0")</td>
-                        <td class="px-4 py-3">
-                            <span class="px-2 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">Tamamlandı</span>
+
+                        <td class="px-6 py-4">
+                            @if (item.Customer.City == "İstanbul" || item.Customer.City == "Ankara" || item.Customer.City == "İzmir")
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    <i class="fas fa-map-marker-alt mr-1"></i> @item.Customer.City
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+                                    <i class="fas fa-map-pin mr-1"></i> @item.Customer.City
+                                </span>
+                            }
                         </td>
+
+                        <td class="px-6 py-4 text-slate-600">
+                            <span class="bg-white border border-slate-200 text-slate-600 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide">
+                                @item.InsurancePolicy.PolicyName
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-slate-700 text-xs">@item.SaleDate.ToString("dd.MM.yyyy")</span>
+                                <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                    <i class="far fa-clock text-[9px]"></i> @item.SaleDate.ToString("HH:mm")
+                                </span>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-4 text-right font-bold text-slate-800">@item.Amount.ToString("C0")</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    // --- VERİ HAZIRLIĞI ---
+    var labels = [];
+    var historicalData = [];
+    var forecastData = [];
+
+    // 1. GEÇMİŞ VERİLER
+    @if (pastData != null)
+    {
+        foreach (var item in pastData)
+        {
+            // Razor döngüsü içinde JS dizisine push yapıyoruz
+            @:labels.push('@item.Date.ToString("MMM yyyy")');
+            @:historicalData.push(@item.Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            @:forecastData.push(null);
+        }
+    }
+
+    // 2. TAHMİN VERİLERİ (Bağlantı Noktası)
+    // Çizgiyi birleştirmek için son geçmiş veriyi tahminin başına ekliyoruz
+    if (historicalData.length > 0) {
+        var lastVal = historicalData[historicalData.length - 1];
+        forecastData[historicalData.length - 1] = lastVal;
+    }
+
+    @if (futureData != null)
+    {
+        foreach (var item in futureData)
+        {
+            @:labels.push('@item.Date.ToString("MMM yyyy")');
+            @:historicalData.push(null);
+            @:forecastData.push(@item.Value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        }
+    }
+
+    // --- CHART 1: CİRO (Line Chart) ---
+    var ctxRev = document.getElementById('revenueChart').getContext('2d');
+
+    var gradBlue = ctxRev.createLinearGradient(0, 0, 0, 400);
+    gradBlue.addColorStop(0, 'rgba(79, 70, 229, 0.4)');
+    gradBlue.addColorStop(1, 'rgba(79, 70, 229, 0.0)');
+
+    var gradRed = ctxRev.createLinearGradient(0, 0, 0, 400);
+    gradRed.addColorStop(0, 'rgba(244, 63, 94, 0.4)');
+    gradRed.addColorStop(1, 'rgba(244, 63, 94, 0.0)');
+
+    new Chart(ctxRev, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Gerçekleşen Ciro',
+                    data: historicalData,
+                    borderColor: '#4f46e5',
+                    backgroundColor: gradBlue,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 6
+                },
+                {
+                    label: 'AI Tahmini',
+                    data: forecastData,
+                    borderColor: '#f43f5e',
+                    backgroundColor: gradRed,
+                    borderDash: [5, 5],
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            var val = context.parsed.y;
+                            if (val !== null) {
+                                return context.dataset.label + ': ₺' + new Intl.NumberFormat('tr-TR').format(val);
+                            }
+                            return '';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { borderDash: [4, 4], color: '#f1f5f9' },
+                    ticks: { callback: function(val) { return '₺' + (val/1000) + 'k'; } }
+                },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // --- CHART 2: ŞEHİR KIYASLAMASI (Bar Chart) ---
+    var cityLabels = @Html.Raw(Json.Encode(ViewBag.CityLabels));
+    var cityPast = @Html.Raw(Json.Encode(ViewBag.CityPastValues));
+    var cityFuture = @Html.Raw(Json.Encode(ViewBag.CityFutureValues));
+
+    new Chart(document.getElementById('cityComparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: cityLabels,
+            datasets: [
+                {
+                    label: 'Son 90 Gün',
+                    data: cityPast,
+                    backgroundColor: '#cbd5e1', // Gri
+                    borderRadius: 4,
+                    barPercentage: 0.6
+                },
+                {
+                    label: 'Gelecek 90 Gün (AI)',
+                    data: cityFuture,
+                    backgroundColor: '#8b5cf6', // Mor
+                    borderRadius: 4,
+                    barPercentage: 0.6
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: true, position: 'top' } },
+            scales: { x: { grid: { display: false } }, y: { display: false } }
+        }
+    });
+
+    // --- CHART 3: ÜRÜN PASTASI (Doughnut) ---
+    var prodLabels = @Html.Raw(Json.Encode(ViewBag.ProductLabels));
+    var prodValues = @Html.Raw(Json.Encode(ViewBag.ProductValues));
+
+    new Chart(document.getElementById('productChart'), {
+        type: 'doughnut',
+        data: {
+            labels: prodLabels,
+            datasets: [{
+                data: prodValues,
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '70%',
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { boxWidth: 10, font: { size: 10 }, padding: 15 }
+                }
+            }
+        }
+    });
+
+    // --- CHART 4: RADAR GRAFİĞİ (Radar) ---
+    var radarLabels = @Html.Raw(Json.Encode(ViewBag.RadarLabels));
+    var radarValues = @Html.Raw(Json.Encode(ViewBag.RadarValues));
+
+    new Chart(document.getElementById('radarChart'), {
+        type: 'radar',
+        data: {
+            labels: radarLabels,
+            datasets: [{
+                label: 'Portföy Gücü',
+                data: radarValues,
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderColor: '#10b981',
+                pointBackgroundColor: '#10b981',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#10b981'
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                r: {
+                    angleLines: { color: '#e2e8f0' },
+                    grid: { color: '#e2e8f0' },
+                    pointLabels: {
+                        font: { size: 10, weight: '600' },
+                        color: '#475569'
+                    },
+                    ticks: { display: false, backdropColor: 'transparent' }
+                }
+            }
+        }
+    });
+</script>

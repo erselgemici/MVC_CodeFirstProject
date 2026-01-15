@@ -1,0 +1,94 @@
+@model List<MyAcademy_MVC_CodeFirst.Data.Entities.ContactMessage>
+@{
+    ViewBag.Title = "Gelen Kutusu";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 text-lg">Gelen Mesajlar</h3>
+        <div class="text-xs text-slate-500">
+            <span class="w-2 h-2 rounded-full bg-blue-600 inline-block me-1"></span>Okunmamış
+            <span class="w-2 h-2 rounded-full bg-slate-300 inline-block ms-3 me-1"></span>Okunmuş
+        </div>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-slate-50 text-xs uppercase text-slate-500 font-bold border-b border-slate-100">
+                    <th class="px-6 py-3 w-4"></th>
+                    <th class="px-6 py-3">Gönderen</th>
+                    <th class="px-6 py-3">Konu</th>
+                    <th class="px-6 py-3">Tarih</th>
+                    <th class="px-6 py-3 text-right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-sm">
+                @foreach (var item in Model)
+                {
+                    <tr class="transition cursor-pointer group @(item.IsRead ? "bg-white hover:bg-slate-50" : "bg-blue-50/50 hover:bg-blue-50")"
+                        onclick="window.location='/Admin/Contact/MessageDetails/@item.MessageID'">
+
+                        <td class="px-4 py-4 text-center">
+                            @if (!item.IsRead)
+                            {
+                                <div class="w-2.5 h-2.5 rounded-full bg-blue-600 shadow-sm mx-auto" title="Okunmadı"></div>
+                            }
+                            else
+                            {
+                                <div class="w-2 h-2 rounded-full bg-slate-200 mx-auto"></div>
+                            }
+                        </td>
+
+                        <td class="px-6 py-4">
+                            <p class="@(item.IsRead ? "font-medium text-slate-700" : "font-bold text-slate-900")">
+                                @item.Name
+                            </p>
+                            <span class="text-xs text-slate-500 font-normal">@item.Email</span>
+                        </td>
+
+                        <td class="px-6 py-4 @(item.IsRead ? "text-slate-600" : "text-slate-800 font-semibold")">
+                            @item.Subject
+                        </td>
+
+                        <td class="px-6 py-4 text-slate-500 text-xs">
+                            @item.SentDate.ToString("dd.MM.yyyy HH:mm")
+                        </td>
+
+                        <td class="px-6 py-4 text-right">
+                            <a href="/Admin/Contact/DeleteMessage/@item.MessageID" class="p-2 text-slate-400 hover:text-red-600 transition btn-delete" title="Sil">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();     
+        e.stopPropagation();  
+
+        var url = $(this).attr('href');
+
+        Swal.fire({
+            title: 'Mesaj Silinsin mi?',
+            text: "Bu işlem geri alınamaz!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Evet, Sil',
+            cancelButtonText: 'Vazgeç'
+        }).then((r) => {
+            if (r.isConfirmed) window.location.href = url;
+        });
+    });
+</script>

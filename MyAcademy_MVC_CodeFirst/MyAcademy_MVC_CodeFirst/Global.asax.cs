@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +12,8 @@ namespace MyAcademy_MVC_CodeFirst
     {
         protected void Application_Start()
         {
+            System.Data.Entity.Database.SetInitializer<MyAcademy_MVC_CodeFirst.Data.Context.AppDbContext>(null);
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

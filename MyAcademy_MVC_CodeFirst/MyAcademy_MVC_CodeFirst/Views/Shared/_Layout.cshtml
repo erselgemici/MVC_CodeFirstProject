@@ -19,8 +19,50 @@
     <link href="~/Theme/Lifesure/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <link href="~/Theme/Lifesure/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="~/Theme/Lifesure/css/style.css" rel="stylesheet">
+
+    <style>
+        /* Google'ın tepedeki gıcık barını gizle */
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+
+        body {
+            top: 0px !important;
+        }
+
+        /* Çeviri kutusunu menüye uydur */
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: 1px solid #ddd !important; /* Hafif bir çerçeve */
+            padding: 5px 10px !important;
+            border-radius: 20px !important; /* Yuvarlak hatlar */
+            font-family: 'DM Sans', sans-serif !important;
+            font-size: 14px !important;
+            transition: all 0.3s ease;
+        }
+
+            .goog-te-gadget-simple:hover {
+                border-color: #0d6efd !important; /* Üzerine gelince mavi olsun */
+                background-color: #f8f9fa !important;
+            }
+
+            .goog-te-gadget-simple span {
+                color: #555 !important; /* Yazı rengi */
+                font-weight: 600 !important;
+            }
+
+            .goog-te-gadget-simple img {
+                display: none !important; /* Google logosunu gizle, sade olsun */
+            }
+
+        /* Mobilde düzgün görünsün */
+        #google_translate_element {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,6 +72,7 @@
             <span class="sr-only">Yükleniyor...</span>
         </div>
     </div>
+
     @Html.Action("TopbarPartial", "Home")
 
     <div class="container-fluid nav-bar px-0 px-lg-4 py-lg-0">
@@ -42,14 +85,31 @@
                     <span class="fa fa-bars"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav mx-0 mx-lg-auto">
+                    <div class="navbar-nav mx-0 mx-lg-auto align-items-center">
                         <a href="/Home/Index" class="nav-item nav-link active">Ana Sayfa</a>
                         <a href="#" class="nav-item nav-link">Hakkımızda</a>
                         <a href="#" class="nav-item nav-link">Hizmetler</a>
                         <a href="#" class="nav-item nav-link">Blog</a>
-                        <a href="#" class="nav-item nav-link">İletişim</a>
+                        <a href="/Contact/Index" class="nav-item nav-link">İletişim</a>
+                        <ul class="navbar-nav">
+                            @if (Session["UserID"] != null)
+                            {
+                                <li class="nav-item">
+                                    <span class="nav-link text-dark font-weight-bold">
+                                        Hoş geldin, @Session["FullName"] (@Session["Role"])
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger" href="/Account/Logout">Çıkış Yap</a>
+                                </li>
+                            }
+                        </ul>
+                        <div class="nav-item ps-3">
+                            <div id="google_translate_element"></div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="d-none d-xl-flex flex-shrink-0 ps-4">
                     <a href="#" class="btn btn-light btn-lg-square rounded-circle position-relative wow tada" data-wow-delay=".9s">
                         <i class="fa fa-phone-alt fa-2x"></i>
@@ -65,6 +125,7 @@
             </nav>
         </div>
     </div>
+
     @RenderBody()
 
     @Html.Action("FooterPartial", "Home")
@@ -91,6 +152,18 @@
     <script src="~/Theme/Lifesure/lib/owlcarousel/owl.carousel.min.js"></script>
 
     <script src="~/Theme/Lifesure/js/main.js"></script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'tr',
+                includedLanguages: 'en,de,fr,es,tr,ja,ar,ru',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
         let docTitle = document.title;

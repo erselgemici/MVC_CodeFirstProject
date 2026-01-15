@@ -101,6 +101,18 @@
                             <span class="material-symbols-outlined text-xl">info</span>
                             <span class="text-sm">Hakkımızda</span>
                         </a>
+                        <a href="/Admin/Testimonial/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">reviews</span>
+                            <span class="text-sm">Müşteri Yorumları</span>
+                        </a>
+                        <a href="/Admin/Team/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">diversity_3</span>
+                            <span class="text-sm">Ekip Üyeleri</span>
+                        </a>
+                        <a href="/Admin/Contact/Index" class="flex items-center gap-3 px-4 py-2 text-slate-300 hover:bg-white/10 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-xl">mail</span>
+                            <span class="text-sm">Gelen Mesajlar</span>
+                        </a>
                     </div>
                 </div>
 
@@ -150,5 +162,19 @@
 
         </div>
     </div>
+    <script>
+        // Orjinal sayfa başlığını hafızada tut
+        let docTitle = document.title;
+
+        window.addEventListener("blur", () => {
+            // Kullanıcı başka sekmeye geçtiğinde
+            document.title = "🥺 Hey, beni unutma!";
+        });
+
+        window.addEventListener("focus", () => {
+            // Kullanıcı geri döndüğünde
+            document.title = docTitle;
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,98 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Sale
+@{
+    ViewBag.Title = "Yeni Satış";
+    Layout = "~/Areas/Staff/Views/Shared/_StaffLayout.cshtml";
+}
+
+<div class="bg-white rounded-lg shadow-sm p-6 max-w-2xl mx-auto">
+    <div class="border-b border-slate-200 pb-4 mb-6">
+        <h2 class="text-2xl font-bold text-navy-dark">📋 Yeni Poliçe Satışı</h2>
+        <p class="text-slate-500 text-sm">Mevcut bir müşteriye satış yapın veya yenisini ekleyin.</p>
+    </div>
+
+    <form method="post">
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-slate-700 mb-2">Müşteri Durumu</label>
+            <div class="flex gap-4">
+                <label class="flex items-center gap-2 cursor-pointer border p-3 rounded-lg w-full hover:bg-slate-50">
+                    <input type="radio" name="CustomerType" value="existing" checked onclick="toggleCustomer('existing')" class="text-primary focus:ring-primary">
+                    <span class="font-medium text-slate-700">🔍 Kayıtlı Müşteri</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer border p-3 rounded-lg w-full hover:bg-slate-50">
+                    <input type="radio" name="CustomerType" value="new" onclick="toggleCustomer('new')" class="text-primary focus:ring-primary">
+                    <span class="font-medium text-slate-700">➕ Yeni Müşteri</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="existingCustomerArea" class="mb-6">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Müşteri Seçiniz</label>
+            @Html.DropDownListFor(x => x.CustomerID, (List<SelectListItem>)ViewBag.CList, "--- Listeden Seçiniz ---", new { @class = "w-full rounded-lg border-slate-300 focus:border-primary focus:ring-primary" })
+        </div>
+
+        <div id="newCustomerArea" class="mb-6 hidden bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h4 class="font-bold text-slate-800 mb-3 border-b pb-2">Yeni Müşteri Bilgileri</h4>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs font-bold text-slate-500">Ad</label>
+                    <input type="text" name="NewFirstName" class="w-full rounded border-slate-300 text-sm" placeholder="Örn: Ahmet">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">Soyad</label>
+                    <input type="text" name="NewLastName" class="w-full rounded border-slate-300 text-sm" placeholder="Örn: Yılmaz">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">Şehir</label>
+                    <select name="NewCity" class="w-full rounded border-slate-300 text-sm">
+                        <option>İstanbul</option>
+                        <option>Ankara</option>
+                        <option>İzmir</option>
+                        <option>Bursa</option>
+                        <option>Antalya</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">Telefon</label>
+                    <input type="text" name="NewPhone" class="w-full rounded border-slate-300 text-sm" placeholder="555...">
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-slate-200 my-6" />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Poliçe Seçiniz</label>
+                @Html.DropDownListFor(x => x.PolicyID, (List<SelectListItem>)ViewBag.PList, "--- Poliçe Seç ---", new { @class = "w-full rounded-lg border-slate-300 focus:border-primary focus:ring-primary" })
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Poliçe Süresi</label>
+                <select name="Duration" class="w-full rounded-lg border-slate-300 focus:border-primary focus:ring-primary">
+                    <option value="6">6 Ay (Kısa Dönem)</option>
+                    <option value="12" selected>1 Yıl (Standart)</option>
+                    <option value="24">2 Yıl (Avantajlı - %10 İndirim)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="pt-2">
+            <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg w-full transition-colors flex justify-center items-center gap-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                <span class="material-symbols-outlined">check_circle</span>
+                Satışı Onayla ve Ciroya Ekle
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function toggleCustomer(type) {
+        if (type === 'new') {
+            document.getElementById('existingCustomerArea').classList.add('hidden');
+            document.getElementById('newCustomerArea').classList.remove('hidden');
+        } else {
+            document.getElementById('existingCustomerArea').classList.remove('hidden');
+            document.getElementById('newCustomerArea').classList.add('hidden');
+        }
+    }
+</script>

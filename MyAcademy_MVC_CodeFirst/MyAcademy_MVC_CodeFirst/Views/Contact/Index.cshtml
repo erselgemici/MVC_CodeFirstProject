@@ -1,0 +1,180 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.ContactMessage
+
+@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var settings = ViewBag.Settings as MyAcademy_MVC_CodeFirst.Data.Entities.CompanySetting;
+}
+
+<div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Bize Ulaşın</h4>
+        <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
+            <li class="breadcrumb-item"><a href="/Home/Index">Ana Sayfa</a></li>
+            <li class="breadcrumb-item active text-primary">İletişim</li>
+        </ol>
+    </div>
+</div>
+<div class="container-fluid contact bg-light py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <h4 class="text-primary">İletişim</h4>
+            <h1 class="display-4 mb-4">Sorularınız İçin Bize Yazın</h1>
+            <p class="text-secondary">@settings.Description</p>
+        </div>
+        <div class="row g-5">
+            <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
+                <div class="contact-img d-flex justify-content-center">
+                    <div class="contact-img-inner">
+                        <img src="~/Theme/LifeSure/img/contact-img.png" class="img-fluid w-100" alt="Image">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 wow fadeInRight" data-wow-delay="0.4s">
+                <div>
+                    <h4 class="text-primary">Mesaj Gönder</h4>
+                    <p class="mb-4">Tüm mesajlarınız yapay zeka tarafından analiz edilip anında yanıtlanır.</p>
+
+                    <form method="post" action="/Contact/Index">
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control border-0" id="name" name="Name" placeholder="Adınız Soyadınız" required>
+                                    <label for="name">Adınız Soyadınız</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control border-0" id="email" name="Email" placeholder="E-Posta Adresiniz" required>
+                                    <label for="email">E-Posta Adresiniz</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control border-0" id="subject" name="Subject" placeholder="Konu" required>
+                                    <label for="subject">Konu</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control border-0" placeholder="Mesajınız" id="message" name="MessageBody" style="height: 120px" required></textarea>
+                                    <label for="message">Mesajınız</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">
+                                    <i class="fas fa-paper-plane me-2"></i> Mesajı Gönder
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div>
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.2s">
+                            <a href="https://www.google.com/maps/search/?api=1&query=@settings.Address" target="_blank" class="contact-add-item text-decoration-none">
+                                <div class="contact-icon text-primary mb-4">
+                                    <i class="fas fa-map-marker-alt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h4>Adres</h4>
+                                    <p class="mb-0 text-dark">@settings.Address</p>
+                                    <small class="text-primary fst-italic">(Haritada Gör)</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.4s">
+                            <div class="contact-add-item">
+                                <div class="contact-icon text-primary mb-4">
+                                    <i class="fas fa-envelope fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h4>Mail</h4>
+                                    <p class="mb-0">@settings.Email</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.6s">
+                            <div class="contact-add-item">
+                                <div class="contact-icon text-primary mb-4">
+                                    <i class="fa fa-phone-alt fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h4>Telefon</h4>
+                                    <p class="mb-0">@settings.Phone</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3 wow fadeInUp" data-wow-delay="0.8s">
+                            <div class="contact-add-item">
+                                <div class="contact-icon text-primary mb-4">
+                                    <i class="fab fa-instagram fa-2x"></i>
+                                </div>
+                                <div>
+                                    <h4>Sosyal Medya</h4>
+                                    <p class="mb-0">LifeSure Sigorta</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="rounded">
+                    <iframe class="rounded w-100"
+                            style="height: 400px;"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d192698.6617267597!2d28.87175465977935!3d41.00532145396593!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa7040068086b%3A0xe1ccfe98bc01b0d0!2zxLBzdGFuYnVs!5e0!3m2!1str!2str!4v1675253816551!5m2!1str!2str"
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    var status = '@ViewBag.Status';
+
+    var uiTitle = '@Html.Raw((string)ViewBag.UiTitle ?? "")';
+    var uiText = '@Html.Raw((string)ViewBag.UiText ?? "")';
+    var btnText = '@Html.Raw((string)ViewBag.ButtonText ?? "")';
+
+    if (status === 'Success') {
+        Swal.fire({
+            title: uiTitle !== "" ? uiTitle : 'Mesajınız Alındı!',
+
+            text: uiText !== "" ? uiText : 'Mesajınız başarıyla iletildi.',
+
+            icon: 'success',
+
+            confirmButtonText: btnText !== "" ? btnText : 'Tamam',
+
+            confirmButtonColor: '#0d6efd'
+        });
+    }
+    else if (status === 'MailError') {
+        Swal.fire({
+            title: 'Mail Gönderilemedi',
+            text: 'Mesajınız veritabanına kaydedildi ancak mail sunucusuna erişilemedi.',
+            icon: 'warning',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#f1c40f'
+        });
+    }
+    else if (status === 'Error') {
+         Swal.fire({
+            title: 'Sistem Hatası',
+            text: 'İşlem sırasında bir hata oluştu.',
+            icon: 'error',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#d33'
+        });
+    }
+</script>
