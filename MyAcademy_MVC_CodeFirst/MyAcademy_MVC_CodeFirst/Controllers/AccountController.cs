@@ -25,6 +25,7 @@ public class AccountController : Controller
             Session["UserID"] = user.UserID;
             Session["FullName"] = user.FullName;
             Session["Role"] = user.Role;
+            Session["Email"] = user.Email;
 
             if (user.Role == "Admin" || user.Role == "Manager")
             {
@@ -33,6 +34,10 @@ public class AccountController : Controller
             else if (user.Role == "Staff")
             {
                 return RedirectToAction("Index", "Dashboard", new { area = "Staff" });
+            }
+            else if (user.Role == "Customer")
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "User" });
             }
         }
 

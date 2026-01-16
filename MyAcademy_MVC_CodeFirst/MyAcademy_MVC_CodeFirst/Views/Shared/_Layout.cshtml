@@ -22,7 +22,7 @@
     <link href="~/Theme/Lifesure/css/style.css" rel="stylesheet">
 
     <style>
-        /* Google'ın tepedeki gıcık barını gizle */
+        /* Google Translate Ayarları */
         .goog-te-banner-frame.skiptranslate {
             display: none !important;
         }
@@ -31,37 +31,48 @@
             top: 0px !important;
         }
 
-        /* Çeviri kutusunu menüye uydur */
         .goog-te-gadget-simple {
             background-color: transparent !important;
-            border: 1px solid #ddd !important; /* Hafif bir çerçeve */
+            border: 1px solid #ddd !important;
             padding: 5px 10px !important;
-            border-radius: 20px !important; /* Yuvarlak hatlar */
+            border-radius: 20px !important;
             font-family: 'DM Sans', sans-serif !important;
             font-size: 14px !important;
             transition: all 0.3s ease;
         }
 
             .goog-te-gadget-simple:hover {
-                border-color: #0d6efd !important; /* Üzerine gelince mavi olsun */
+                border-color: #0d6efd !important;
                 background-color: #f8f9fa !important;
             }
 
             .goog-te-gadget-simple span {
-                color: #555 !important; /* Yazı rengi */
+                color: #555 !important;
                 font-weight: 600 !important;
             }
 
             .goog-te-gadget-simple img {
-                display: none !important; /* Google logosunu gizle, sade olsun */
+                display: none !important;
             }
 
-        /* Mobilde düzgün görünsün */
         #google_translate_element {
             display: flex;
             align-items: center;
             height: 100%;
         }
+
+        /* Dropdown Buton Stili */
+        .user-dropdown-btn {
+            color: #0d6efd !important;
+            border: 1px solid #0d6efd;
+            background: white;
+            transition: all 0.3s;
+        }
+
+            .user-dropdown-btn:hover {
+                background: #0d6efd;
+                color: white !important;
+            }
     </style>
 </head>
 
@@ -91,19 +102,37 @@
                         <a href="#" class="nav-item nav-link">Hizmetler</a>
                         <a href="#" class="nav-item nav-link">Blog</a>
                         <a href="/Contact/Index" class="nav-item nav-link">İletişim</a>
-                        <ul class="navbar-nav">
-                            @if (Session["UserID"] != null)
-                            {
-                                <li class="nav-item">
-                                    <span class="nav-link text-dark font-weight-bold">
-                                        Hoş geldin, @Session["FullName"] (@Session["Role"])
-                                    </span>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-danger" href="/Account/Logout">Çıkış Yap</a>
-                                </li>
-                            }
-                        </ul>
+
+                        @if (Session["UserID"] != null)
+                        {
+                            <div class="nav-item dropdown ms-3">
+                                <a href="#" class="nav-link dropdown-toggle btn rounded-pill px-4 user-dropdown-btn" data-bs-toggle="dropdown">
+                                    <i class="fa fa-user-circle me-2"></i> @Session["FullName"]
+                                </a>
+                                <div class="dropdown-menu rounded-0 m-0 shadow-sm border-0">
+
+                                    @if (Session["Role"]?.ToString() == "Admin" || Session["Role"]?.ToString() == "Manager")
+                                    {
+                                        <a href="/Admin/Dashboard/Index" class="dropdown-item"><i class="fas fa-tachometer-alt me-2"></i> Yönetim Paneli</a>
+                                    }
+                                    else if (Session["Role"]?.ToString() == "Staff")
+                                    {
+                                        <a href="/Staff/Dashboard/Index" class="dropdown-item"><i class="fas fa-briefcase me-2"></i> Personel Paneli</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/User/Dashboard/Index" class="dropdown-item"><i class="fas fa-home me-2"></i> Müşteri Paneli</a>
+                                    }
+
+                                    <div class="dropdown-divider"></div>
+                                    <a href="/Account/Logout" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="/Account/Login" class="btn btn-primary rounded-pill py-2 px-4 ms-3">Giriş Yap</a>
+                        }
                         <div class="nav-item ps-3">
                             <div id="google_translate_element"></div>
                         </div>

@@ -1,0 +1,78 @@
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<Sale>
+@{
+    ViewBag.Title = "Poliçelerim";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-800">Poliçelerim</h2>
+            <p class="text-slate-500">Satın aldığınız tüm sigorta ürünleri ve detayları.</p>
+        </div>
+        <button class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 shadow-sm transition">
+            <span class="material-symbols-outlined text-sm">download</span>
+            Döküm Al
+        </button>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var item in Model)
+            {
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition group overflow-hidden">
+                    <div class="h-2 bg-gradient-to-r from-emerald-400 to-teal-500"></div>
+
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100 transition">
+                                <span class="material-symbols-outlined text-2xl">verified_user</span>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded border border-green-200">
+                                AKTİF
+                            </span>
+                        </div>
+
+                        <h3 class="text-lg font-bold text-slate-800 mb-1">
+                            @item.InsurancePolicy.PolicyName
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">Poliçe No: #@item.SaleID</p>
+
+                        <div class="space-y-2 border-t border-slate-100 pt-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500">Başlangıç:</span>
+                                <span class="font-medium text-slate-700">@item.SaleDate.ToString("dd.MM.yyyy")</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-500">Tutar:</span>
+                                <span class="font-bold text-emerald-600">₺@item.Amount.ToString("N2")</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 grid grid-cols-2 gap-3">
+                            <button class="w-full py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-medium transition">
+                                Detaylar
+                            </button>
+                            <button class="w-full py-2 border border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-lg text-sm font-medium transition flex justify-center items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">print</span> Yazdır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-12 bg-white rounded-xl border border-slate-200 border-dashed">
+            <span class="material-symbols-outlined text-6xl text-slate-200 mb-4">folder_off</span>
+            <h3 class="text-lg font-medium text-slate-600">Henüz bir poliçeniz yok.</h3>
+            <p class="text-slate-400 mb-6">Kendinizi güvenceye almak için hemen teklif alın.</p>
+            <a href="/User/Offers/Index" class="inline-block bg-emerald-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-emerald-700 transition">
+                Teklifleri İncele
+            </a>
+        </div>
+    }
+</div>

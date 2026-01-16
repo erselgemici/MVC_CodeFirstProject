@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - LifeSure Müşteri Paneli</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#059669",     /* Emerald-600 */
+                        "primary-hover": "#047857", /* Emerald-700 */
+                        "sidebar-bg": "#ecfdf5",   /* Emerald-50 (Çok açık yeşil) */
+                    },
+                    fontFamily: { "sans": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <aside class="hidden md:flex flex-col w-72 bg-white border-r border-slate-200 shrink-0 shadow-sm relative z-20">
+
+            <div class="p-6 flex items-center gap-3 bg-gradient-to-br from-emerald-600 to-teal-700 text-white m-4 rounded-2xl shadow-lg shadow-emerald-200">
+                <div class="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-white">shield_person</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight leading-none">LifeSure</h1>
+                    <span class="text-[10px] text-emerald-100 font-medium tracking-[0.2em] opacity-90">MÜŞTERİ PANELİ</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto px-4 space-y-2 mt-2 custom-scrollbar">
+
+                <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Menü</p>
+
+                <a href="/User/Dashboard/Index" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-emerald-600 transition-colors">home</span>
+                    Genel Bakış
+                </a>
+
+                <a href="/User/MyPolicies/Index" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-emerald-600 transition-colors">folder_managed</span>
+                    Poliçelerim
+                </a>
+
+                <a href="/User/Claims/Index" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-emerald-600 transition-colors">medical_services</span>
+                    Hasar İşlemleri
+                </a>
+
+                <a href="/User/Offers/Index" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-emerald-600 transition-colors">add_shopping_cart</span>
+                    Yeni Teklif Al
+                </a>
+
+                <div class="my-4 border-t border-slate-100 mx-4"></div>
+
+                <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Hızlı Erişim</p>
+
+                <a href="/" target="_blank" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-blue-600 transition-colors">public</span>
+                    Siteye Git
+                    <span class="material-symbols-outlined text-xs ml-auto text-slate-300 group-hover:text-blue-400">open_in_new</span>
+                </a>
+
+                <div class="my-4 border-t border-slate-100 mx-4"></div>
+
+                <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Hesap</p>
+
+                <a href="/User/Profile/Index" class="group flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl transition-all duration-200 font-medium">
+                    <span class="material-symbols-outlined text-[22px] text-slate-400 group-hover:text-emerald-600 transition-colors">manage_accounts</span>
+                    Profil Ayarları
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-slate-100">
+                <a href="/Account/Logout" class="flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl font-medium transition-colors">
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                    Güvenli Çıkış
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-hidden relative">
+
+            <header class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 z-10 sticky top-0">
+                <h2 class="text-lg font-semibold text-slate-700">@ViewBag.Title</h2>
+
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-slate-800">@(Session["FullName"] ?? "Değerli Müşterimiz")</p>
+                        <p class="text-[11px] text-slate-500">Bireysel Üye</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 p-0.5">
+                        <img src="https://ui-avatars.com/api/?name=@(Session["FullName"])&background=059669&color=fff" class="w-full h-full rounded-full" />
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 md:p-8">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+</body>
+</html>

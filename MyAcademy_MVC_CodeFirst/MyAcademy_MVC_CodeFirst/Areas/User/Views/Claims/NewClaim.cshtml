@@ -1,0 +1,21 @@
+@model MyAcademy_MVC_CodeFirst.Data.Entities.Claim
+@{ ViewBag.Title = "Hasar Bildir"; Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml"; }
+
+<div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-sm">
+    <h2 class="text-xl font-bold text-slate-800 mb-6 border-b pb-2">⚠️ Yeni Hasar Bildirimi</h2>
+    <form method="post">
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-slate-700 mb-1">İlgili Poliçe</label>
+            @Html.DropDownListFor(x => x.PolicyID, (List<SelectListItem>)ViewBag.Policies, "Seçiniz...", new { @class = "w-full rounded-lg border-slate-300" })
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Olay Tarihi</label>
+            <input type="date" name="IncidentDate" class="w-full rounded-lg border-slate-300">
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Açıklama</label>
+            <textarea name="Description" rows="4" class="w-full rounded-lg border-slate-300" placeholder="Olay nasıl gerçekleşti?"></textarea>
+        </div>
+        <button class="w-full bg-red-600 text-white font-bold py-3 rounded-lg hover:bg-red-700">Bildirimi Gönder</button>
+    </form>
+</div>

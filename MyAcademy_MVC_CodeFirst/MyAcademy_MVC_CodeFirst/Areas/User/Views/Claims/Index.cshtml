@@ -1,0 +1,46 @@
+@using MyAcademy_MVC_CodeFirst.Data.Entities
+@model List<Claim>
+@{ ViewBag.Title = "Hasar İşlemleri"; Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml"; }
+
+<div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-slate-800">Hasar Dosyalarım</h2>
+        <a href="/User/Claims/NewClaim" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 shadow-sm transition">
+            <span class="material-symbols-outlined text-sm">warning</span> Hasar Bildir
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="space-y-4">
+            @foreach (var item in Model)
+            {
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-red-50 text-red-600 rounded-full">
+                            <span class="material-symbols-outlined">crash</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">@item.InsurancePolicy.PolicyName</h4>
+                            <p class="text-sm text-slate-500">@item.IncidentDate.ToString("dd MMMM yyyy") - @item.Description</p>
+                        </div>
+                    </div>
+                    <div>
+                        @if (item.Status == "Beklemede")
+                        {<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold">İNCELENİYOR</span> }
+                        else if (item.Status == "Onaylandı")
+                        { <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">ONAYLANDI</span> }
+                        else
+                        { <span class="bg-slate-100 text-slate-800 px-3 py-1 rounded-full text-xs font-bold">@item.Status</span>}
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-12 bg-white rounded-xl border border-dashed border-slate-300">
+            <p class="text-slate-500">Kayıtlı hasar dosyanız bulunmamaktadır.</p>
+        </div>
+    }
+</div>

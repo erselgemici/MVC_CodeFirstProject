@@ -1,0 +1,78 @@
+
+@{
+    ViewBag.Title = "Hoş Geldiniz";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="bg-gradient-to-r from-emerald-500 to-teal-700 rounded-2xl p-8 text-white shadow-xl mb-8 relative overflow-hidden">
+    <div class="relative z-10">
+        <h1 class="text-3xl font-bold mb-2">Güvendesiniz, @(Session["FullName"] ?? "Misafir"). 🛡️</h1>
+        <p class="text-emerald-100 max-w-xl">
+            LifeSure ile geleceğiniz teminat altında. Poliçelerinizi inceleyebilir, hasar bildirimi yapabilir veya yeni teklifler alabilirsiniz.
+        </p>
+        <div class="mt-6 flex gap-3">
+            <a href="/User/Offers/Index" class="bg-white text-emerald-700 px-5 py-2.5 rounded-lg font-bold hover:bg-emerald-50 transition shadow-md">
+                + Yeni Teklif Al
+            </a>
+            <a href="/User/Claims/Index" class="bg-emerald-800/50 text-white border border-white/20 px-5 py-2.5 rounded-lg font-medium hover:bg-emerald-800 transition">
+                Hasar Bildir
+            </a>
+        </div>
+    </div>
+    <span class="material-symbols-outlined absolute -right-6 -bottom-8 text-[200px] text-white/10 rotate-12">verified_user</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+        <div class="p-4 bg-blue-50 text-blue-600 rounded-xl">
+            <span class="material-symbols-outlined text-3xl">folder_managed</span>
+        </div>
+        <div>
+            <p class="text-sm text-slate-500 font-medium">Aktif Poliçelerim</p>
+            <h3 class="text-2xl font-bold text-slate-800">@ViewBag.PolicyCount adet</h3>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+        <div class="p-4 bg-emerald-100 text-emerald-600 rounded-xl">
+            <span class="material-symbols-outlined text-3xl">verified_user</span>
+        </div>
+        <div>
+            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Toplam Güvence</p>
+            <h3 class="text-2xl font-bold text-slate-800">₺@(((decimal)(ViewBag.TotalAmount ?? 0)).ToString("N0"))</h3>
+            <span class="text-xs text-green-600 font-medium">Teminat Altındasınız</span>
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+        <div class="p-4 bg-purple-50 text-purple-600 rounded-xl">
+            <span class="material-symbols-outlined text-3xl">history</span>
+        </div>
+        <div>
+            <p class="text-sm text-slate-500 font-medium">Son İşlem Tarihi</p>
+            <h3 class="text-2xl font-bold text-slate-800">@ViewBag.LastActionDate</h3>
+        </div>
+    </div>
+</div>
+
+<h3 class="text-lg font-bold text-slate-800 mb-4">Hızlı İşlemler</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <a href="#" class="bg-white p-4 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition group text-center">
+        <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary mb-2">print</span>
+        <p class="text-sm font-medium text-slate-600 group-hover:text-primary">Poliçe Yazdır</p>
+    </a>
+    <a href="#" class="bg-white p-4 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition group text-center">
+        <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary mb-2">support_agent</span>
+        <p class="text-sm font-medium text-slate-600 group-hover:text-primary">Canlı Destek</p>
+    </a>
+    <a href="#" class="bg-white p-4 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition group text-center">
+        <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary mb-2">credit_card</span>
+        <p class="text-sm font-medium text-slate-600 group-hover:text-primary">Ödeme Yap</p>
+    </a>
+    <a href="#" class="bg-white p-4 rounded-xl border border-slate-200 hover:border-primary hover:shadow-md transition group text-center">
+        <span class="material-symbols-outlined text-3xl text-slate-400 group-hover:text-primary mb-2">settings</span>
+        <p class="text-sm font-medium text-slate-600 group-hover:text-primary">Ayarlar</p>
+    </a>
+</div>
+

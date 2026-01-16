@@ -23,5 +23,6 @@ namespace MyAcademy_MVC_CodeFirst.Data.Context
         public DbSet<CompanySetting> CompanySettings { get; set; }
 
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Claim> Claims { get; set; }
     }
 }
