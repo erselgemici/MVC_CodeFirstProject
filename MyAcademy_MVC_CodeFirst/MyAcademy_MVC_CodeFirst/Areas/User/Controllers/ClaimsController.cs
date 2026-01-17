@@ -1,13 +1,17 @@
+using MyAcademy_MVC_CodeFirst.Data.Context;
+using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MyAcademy_MVC_CodeFirst.Data.Context;
-using MyAcademy_MVC_CodeFirst.Data.Entities;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 {
     [Authorize]
+    [LogAction(ActionDescription = "Kullanıcı Hasar Talepleri")]
     public class ClaimsController : Controller
     {
         AppDbContext db = new AppDbContext();
@@ -23,15 +27,19 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
             return View(myClaims);
         }
 
-        // YENİ HASAR KAYDI (GET)
+        // YENİ HASAR KAYDI
         [HttpGet]
         public ActionResult NewClaim()
         {
             var email = User.Identity.Name;
             var customer = db.Customers.FirstOrDefault(x => x.Email == email);
 
-            // Müşterinin SAHİP OLDUĞU poliçeleri listele (Sadece onlara hasar açabilir)
-            // Sales tablosundan müşterinin poliçelerini bulup distinct (tekrarsız) getiriyoruz
+            Log.Information("Kullanıcı: {UserEmail} | İşlem: CreateClaim | Mesaj: Hasar Talebi Oluşturuldu | Detay: {Data}",
+        Session["Email"],
+        JsonConvert.SerializeObject(customer));
+
+
+            // Müşterinin sahip olduğu poliçeler
             var myPolicyIds = db.Sales.Where(x => x.CustomerID == customer.CustomerID).Select(x => x.PolicyID).Distinct().ToList();
 
             var myPolicies = db.InsurancePolicies
@@ -46,7 +54,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
             return View();
         }
 
-        // YENİ HASAR KAYDI (POST)
         [HttpPost]
         public ActionResult NewClaim(Claim p)
         {
@@ -55,7 +62,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 
             p.CustomerID = customer.CustomerID;
             p.CreatedAt = DateTime.Now;
-            p.Status = "Beklemede"; // İlk kayıt durumu
+            p.Status = "Beklemede";
 
             db.Claims.Add(p);
             db.SaveChanges();

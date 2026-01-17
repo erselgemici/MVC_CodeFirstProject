@@ -16,25 +16,24 @@ public class MlService
     }
 
     // Şehir bazlı gelecek 3 ayı tahmin et
-    // Geri dönüş tipi değişti: Hem tarih hem değer listesi dönecek
     public List<SalesData> PredictTotalRevenue()
     {
         var mlContext = new MLContext();
 
-        // 1. TÜM SATIŞLARI ÇEK (Şehir ayrımı yok)
+        // TÜM SATIŞLARI ÇEK
         var rawData = _context.Sales
             .Select(x => new { x.SaleDate, x.Amount })
             .ToList();
 
         if (!rawData.Any()) return new List<SalesData>();
 
-        // 2. AYLIK TOPLAM CİRO (Amount Sum)
+        // AYLIK TOPLAM CİRO (Amount Sum)
         var monthlyData = rawData
             .GroupBy(x => new { x.SaleDate.Year, x.SaleDate.Month })
             .Select(g => new SalesData
             {
                 Date = new DateTime(g.Key.Year, g.Key.Month, 1),
-                Value = (float)g.Sum(x => x.Amount) // CİRO TAHMİNİ (Daha havalı rakamlar)
+                Value = (float)g.Sum(x => x.Amount) // CİRO TAHMİNİ
             })
             .OrderBy(x => x.Date)
             .ToList();
@@ -42,14 +41,14 @@ public class MlService
         // Veri azsa işlem yapma
         if (monthlyData.Count < 12) return new List<SalesData>();
 
-        // 3. MODELİ EĞİT (SSA)
+        // MODELİ EĞİT (SSA)
         IDataView dataView = mlContext.Data.LoadFromEnumerable(monthlyData);
 
         var pipeline = mlContext.Forecasting.ForecastBySsa(
             outputColumnName: nameof(SalesPrediction.Forecast),
             inputColumnName: nameof(SalesData.Value),
-            windowSize: 5,       // Pencereyi büyüttük
-            seriesLength: 12,    // 12 Aylık döngü
+            windowSize: 5,      
+            seriesLength: 12,   
             trainSize: monthlyData.Count,
             horizon: 6,          // GELECEK 6 AYI TAHMİN ET
             confidenceLevel: 0.95f,
@@ -61,7 +60,7 @@ public class MlService
         var engine = model.CreateTimeSeriesEngine<SalesData, SalesPrediction>(mlContext);
         var forecast = engine.Predict();
 
-        // 4. SONUÇLARI HAZIRLA
+        // ONUÇLARI HAZIRLA
         var predictions = new List<SalesData>();
         var lastDate = monthlyData.Last().Date;
 
@@ -82,28 +81,26 @@ public class MlService
     {
         var mlContext = new MLContext();
 
-        // 1. O şehre ait verileri çek
+        // O şehre ait verileri çek
         var rawData = _context.Sales
             .Where(x => x.Customer.City == city)
-            .Select(x => new { x.SaleDate, x.Amount }) // Adet sayacağız
+            .Select(x => new { x.SaleDate, x.Amount })
             .ToList();
 
         // Veri yoksa veya çok azsa 0 dön
         if (rawData.Count < 10) return 0;
 
-        // 2. Aylık Gruplama (Adet Bazlı)
+        // Aylık Gruplama (Adet Bazlı)
         var monthlyData = rawData
             .GroupBy(x => new { x.SaleDate.Year, x.SaleDate.Month })
             .Select(g => new SalesData
             {
                 Date = new DateTime(g.Key.Year, g.Key.Month, 1),
-                Value = (float)g.Count() // Adet sayıyoruz
+                Value = (float)g.Count() 
             })
             .OrderBy(x => x.Date)
             .ToList();
 
-        // 3. Model Eğitimi (Hızlı ve Basit SSA)
-        // Veri seti küçük olabileceği için windowSize düşürüldü
         if (monthlyData.Count < 5) return 0;
 
         IDataView dataView = mlContext.Data.LoadFromEnumerable(monthlyData);
@@ -124,7 +121,7 @@ public class MlService
         var engine = model.CreateTimeSeriesEngine<SalesData, SalesPrediction>(mlContext);
         var forecast = engine.Predict();
 
-        // 4. Gelecek 3 ayın toplamını döndür
+        // Gelecek 3 ayın toplamını döndür
         float totalPrediction = 0;
         foreach (var val in forecast.Forecast)
         {

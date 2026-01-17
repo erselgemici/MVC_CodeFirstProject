@@ -1,11 +1,13 @@
-using System.Linq;
-using System.Web.Mvc;
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 {
     [Authorize]
+    [LogAction(ActionDescription = "Kullanıcı Profil İşlemleri")]
     public class ProfileController : Controller
     {
         AppDbContext db = new AppDbContext();
@@ -15,9 +17,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
         {
             var email = User.Identity.Name;
 
-            // Müşteri hem AppUsers tablosunda (Login için) 
-            // Hem de Customers tablosunda (Veri için) olabilir.
-            // Biz Login olan AppUser'ı güncelleyelim.
             var user = db.AppUsers.FirstOrDefault(x => x.Email == email);
 
             return View(user);
@@ -30,11 +29,10 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 
             user.FullName = p.FullName;
             user.Email = p.Email;
-            user.Password = p.Password; // Gerçek hayatta hash'lenmeli
+            user.Password = p.Password; 
 
             db.SaveChanges();
 
-            // Session'ı güncelle ki sağ üstteki isim hemen değişsin
             Session["FullName"] = user.FullName;
 
             ViewBag.Success = "Bilgileriniz başarıyla güncellendi.";

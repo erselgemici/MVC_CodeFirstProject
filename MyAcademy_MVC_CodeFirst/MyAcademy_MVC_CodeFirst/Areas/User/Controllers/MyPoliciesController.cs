@@ -1,10 +1,12 @@
+using MyAcademy_MVC_CodeFirst.Data.Context;
+using MyAcademy_MVC_CodeFirst.Filters;
 using System.Linq;
 using System.Web.Mvc;
-using MyAcademy_MVC_CodeFirst.Data.Context;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 {
     [Authorize]
+    [LogAction(ActionDescription = "Kullanıcı Poliçelerini Görüntüledi")]
     public class MyPoliciesController : Controller
     {
         AppDbContext db = new AppDbContext();
@@ -16,7 +18,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.User.Controllers
 
             if (customer == null) return RedirectToAction("Index", "Dashboard");
 
-            // Müşterinin satın aldığı poliçeleri (Sales tablosundan) çekiyoruz
             var myPolicies = db.Sales
                                .Where(x => x.CustomerID == customer.CustomerID)
                                .OrderByDescending(x => x.SaleDate)

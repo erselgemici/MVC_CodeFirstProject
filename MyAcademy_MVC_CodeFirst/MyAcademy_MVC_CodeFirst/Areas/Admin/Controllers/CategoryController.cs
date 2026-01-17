@@ -1,7 +1,8 @@
-using System.Linq;
-using System.Web.Mvc;
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
@@ -22,6 +23,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [LogAction(ActionDescription = "Yeni Bir Kategori Oluşturdu")]
         public ActionResult CreateCategory(InsuranceCategory category)
         {
             if (ModelState.IsValid)
@@ -33,6 +35,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             return View(category);
         }
 
+        [LogAction(ActionDescription = "Bir Kategori Sildi")]
         public ActionResult DeleteCategory(int id)
         {
             var category = db.InsuranceCategories.Find(id);
@@ -49,6 +52,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [LogAction(ActionDescription = "Kategori Bilgilerini Güncelledi")]
         public ActionResult UpdateCategory(InsuranceCategory category)
         {
             var value = db.InsuranceCategories.Find(category.CategoryID);

@@ -1,30 +1,27 @@
+using MyAcademy_MVC_CodeFirst.Data.Context;
+using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MyAcademy_MVC_CodeFirst.Data.Context;
-using MyAcademy_MVC_CodeFirst.Data.Entities;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
 {
     [Authorize]
+    [LogAction(ActionDescription = "Personel Satış İşlemi")]
     public class SalesController : Controller
     {
         AppDbContext db = new AppDbContext();
-
-        // 1. SATIŞ GEÇMİŞİ LİSTESİ
         public ActionResult Index()
         {
-            // Sadece son 50 satışı getir (Performans için)
             var sales = db.Sales.OrderByDescending(x => x.SaleID).Take(50).ToList();
             return View(sales);
         }
 
-        // 2. YENİ SATIŞ SAYFASI (GET)
         [HttpGet]
         public ActionResult NewSale()
         {
-            // Müşterileri Dropdown'a doldur
             List<SelectListItem> customers = (from x in db.Customers.OrderBy(c => c.FirstName).ToList()
                                               select new SelectListItem
                                               {
@@ -32,7 +29,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
                                                   Value = x.CustomerID.ToString()
                                               }).ToList();
 
-            // Poliçeleri Dropdown'a doldur
             List<SelectListItem> policies = (from x in db.InsurancePolicies.ToList()
                                              select new SelectListItem
                                              {
@@ -49,7 +45,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
         [HttpPost]
         public ActionResult NewSale(Sale p, string CustomerType, string NewFirstName, string NewLastName, string NewCity, string NewPhone, int Duration)
         {
-            // 1. MÜŞTERİ KONTROLÜ
             if (CustomerType == "new")
             {
                 // Yeni Müşteri Oluştur ve Kaydet
@@ -62,18 +57,16 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
                 c.CreatedAt = DateTime.Now;
 
                 db.Customers.Add(c);
-                db.SaveChanges(); // ID oluşsun diye hemen kaydediyoruz
+                db.SaveChanges(); 
 
                 p.CustomerID = c.CustomerID; // Yeni oluşan ID'yi satışa ata
             }
-            // Else: CustomerType == "existing" ise p.CustomerID zaten formdan dolu geliyor.
 
-            // 2. FİYAT VE SÜRE HESAPLAMA
+            // FİYAT VE SÜRE HESAPLAMA
             var policy = db.InsurancePolicies.Find(p.PolicyID);
             decimal basePrice = policy.Price;
             decimal finalPrice = 0;
 
-            // Süre Çarpanları
             switch (Duration)
             {
                 case 6: finalPrice = basePrice * 0.6m; break; // 6 Aylık (%60 fiyat)
@@ -85,7 +78,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
             p.SaleDate = DateTime.Now;
             p.Amount = finalPrice;
 
-            // 3. SATIŞI KAYDET
             db.Sales.Add(p);
             db.SaveChanges();
 

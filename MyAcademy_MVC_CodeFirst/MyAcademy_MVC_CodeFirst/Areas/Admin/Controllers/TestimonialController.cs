@@ -1,10 +1,12 @@
-using System.Linq;
-using System.Web.Mvc;
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [LogAction(ActionDescription = "Müşteri Yorumları Yönetimi")]
     public class TestimonialController : Controller
     {
         AppDbContext db = new AppDbContext();

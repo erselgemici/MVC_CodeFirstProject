@@ -1,4 +1,5 @@
 using MyAcademy_MVC_CodeFirst.Data.Context;
+using MyAcademy_MVC_CodeFirst.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,16 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
         MlService mlService = new MlService();
 
+        [LogAction(ActionDescription = "Dashboard (Ana Sayfa) Görüntülendi")]
         public ActionResult Index()
         {
-            // --- 1. KART BİLGİLERİ ---
+            // KART BİLGİLERİ
             ViewBag.TotalSales = db.Sales.Any() ? db.Sales.Sum(x => x.Amount) : 0;
             ViewBag.TotalCustomers = db.Customers.Count();
             ViewBag.TotalPolicies = db.InsurancePolicies.Count();
             ViewBag.TotalMessages = db.ContactMessages.Count();
 
-            // --- 2. ANA GRAFİK (CİRO TRENDİ) ---
+            // ANA GRAFİK (CİRO TRENDİ)
             var currentMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
             var pastDataRaw = db.Sales
@@ -36,12 +38,12 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             ViewBag.PastData = pastDataRaw;
             ViewBag.FutureData = futureDataRaw;
 
-            // --- 3. ŞEHİR KIYASLAMASI (GEÇMİŞ vs GELECEK) ---
+            // ŞEHİR KIYASLAMASI (GEÇMİŞ vs GELECEK)
             var topCities = db.Sales
                 .GroupBy(x => x.Customer.City)
                 .Select(g => new { City = g.Key, Count = g.Count() })
                 .OrderByDescending(x => x.Count)
-                .Take(4) // Ekrana sığsın diye 4 şehir
+                .Take(4) 
                 .ToList();
 
             var cityLabels = new List<string>();
@@ -57,11 +59,11 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
                 {
                     cityLabels.Add(item.City);
 
-                    // A) Geçmiş Veri (Son 90 gün)
+                    // Geçmiş Veri (Son 90 gün)
                     var pastCount = db.Sales.Count(x => x.Customer.City == item.City && x.SaleDate >= threeMonthsAgo);
                     cityPastValues.Add(pastCount);
 
-                    // B) Gelecek Tahmini (AI)
+                    // Gelecek Tahmini (AI)
                     float prediction = mlService.PredictCityNext3Months(item.City);
                     cityFutureValues.Add((float)Math.Round(prediction));
                 }
@@ -71,7 +73,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             ViewBag.CityPastValues = cityPastValues;
             ViewBag.CityFutureValues = cityFutureValues;
 
-            // --- 4. ÜRÜN PASTASI (İsimler Görünecek) ---
+            // ÜRÜN PASTASI
             var topProducts = db.Sales
                 .GroupBy(x => x.InsurancePolicy.PolicyName)
                 .Select(g => new { Product = g.Key, Amount = g.Sum(x => x.Amount) })
@@ -81,11 +83,9 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             ViewBag.ProductLabels = topProducts.Select(x => x.Product).ToList();
             ViewBag.ProductValues = topProducts.Select(x => x.Amount).ToList();
 
-            // --- 5. YENİ: KATEGORİ RADAR GRAFİĞİ (Risk Analizi Gibi Durur) ---
-            // Hangi kategoride (Sağlık, Araç, Konut) ne kadar güçlüyüz?
-            // Not: Policy tablosunda CategoryID olduğunu varsayıyorum, yoksa PolicyName'den grupla
+            // RADAR GRAFİĞİ
             var categoryStats = db.Sales
-                .GroupBy(x => x.InsurancePolicy.PolicyName) // Kategori tablosu joinli değilse PolicyName kullan
+                .GroupBy(x => x.InsurancePolicy.PolicyName)
                 .Select(g => new { Cat = g.Key, Count = g.Count() })
                 .OrderByDescending(x => x.Count)
                 .Take(5)
@@ -95,7 +95,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             ViewBag.RadarValues = categoryStats.Select(x => x.Count).ToList();
 
 
-            // --- 6. SON İŞLEMLER ---
+            // SON İŞLEMLER
             var lastSales = db.Sales.Include("Customer").Include("InsurancePolicy")
                             .OrderByDescending(x => x.SaleDate)
                             .Take(6)
@@ -103,5 +103,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
             return View(lastSales);
         }
+
     }
 }

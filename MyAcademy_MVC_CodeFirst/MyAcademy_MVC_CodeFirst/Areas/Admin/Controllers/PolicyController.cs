@@ -1,8 +1,9 @@
+using MyAcademy_MVC_CodeFirst.Data.Context;
+using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using MyAcademy_MVC_CodeFirst.Data.Context;
-using MyAcademy_MVC_CodeFirst.Data.Entities;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
@@ -10,6 +11,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
     {
         AppDbContext db = new AppDbContext();
 
+        [LogAction(ActionDescription = "Poliçe Listesini Görüntüledi")]
         public ActionResult Index()
         {
             var values = db.InsurancePolicies.Include("InsuranceCategory").ToList();
@@ -30,6 +32,7 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [LogAction(ActionDescription = "Yeni Poliçe Oluşturdu")]
         public ActionResult CreatePolicy(InsurancePolicy policy)
         {
             if (ModelState.IsValid)

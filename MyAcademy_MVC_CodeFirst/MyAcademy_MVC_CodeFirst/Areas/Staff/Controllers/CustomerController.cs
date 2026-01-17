@@ -1,18 +1,19 @@
-using System.Linq;
-using System.Web.Mvc;
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
 {
     [Authorize]
+    [LogAction(ActionDescription = "Personel Müşteri İşlemleri")]
     public class CustomerController : Controller
     {
         AppDbContext db = new AppDbContext();
 
         public ActionResult Index(string search)
         {
-            // Veritabanındaki müşterileri alıyoruz
             var values = from x in db.Customers select x;
 
             // Eğer arama kutusuna bir şey yazıldıysa filtrele
@@ -23,7 +24,6 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Staff.Controllers
                                            y.City.Contains(search));
             }
 
-            // Son 100 müşteriyi, en yeniden eskiye doğru getir
             var result = values.OrderByDescending(x => x.CustomerID).Take(100).ToList();
 
             return View(result);

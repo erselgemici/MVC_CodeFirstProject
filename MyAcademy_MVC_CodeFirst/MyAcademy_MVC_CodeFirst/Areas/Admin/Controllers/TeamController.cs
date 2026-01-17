@@ -1,10 +1,12 @@
-using System.Linq;
-using System.Web.Mvc;
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [LogAction(ActionDescription = "Ekip Üyeleri Yönetimi")]
     public class TeamController : Controller
     {
         AppDbContext db = new AppDbContext();

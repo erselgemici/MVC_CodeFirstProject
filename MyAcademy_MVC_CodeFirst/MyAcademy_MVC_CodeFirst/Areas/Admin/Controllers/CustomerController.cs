@@ -1,6 +1,8 @@
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
 using PagedList;
+using Serilog;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,8 +13,12 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
     {
         AppDbContext db = new AppDbContext();
 
+        [LogAction(ActionDescription = "Müşteri Listesine Erişim Sağladı")]
         public ActionResult Index(string search, int page = 1)
         {
+            // PERFORMANS: db.Customers.ToList() demiyoruz
+            // AsQueryable() diyerek sorguyu henüz veritabanına göndermiyoruz.
+            // Sadece "Ben bu tabloyla çalışacağım" diye hazırlık yapıyoruz.
             var values = db.Customers.AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
@@ -49,15 +55,21 @@ namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         public ActionResult DeleteCustomer(int id)
         {
             var value = db.Customers.Find(id);
-            if (value != null)
-            {
-                db.Customers.Remove(value);
-                db.SaveChanges();
-            }
+            string name = value.FirstName + " " + value.LastName; 
+
+            db.Customers.Remove(value);
+            db.SaveChanges();
+
+            Log.Warning("Kullanıcı: {UserEmail} | İşlem: DeleteCustomer | Mesaj: {Message} | Detay: {Data}",
+                Session["Email"],
+                $"{name} isimli müşteri silindi.",
+                Newtonsoft.Json.JsonConvert.SerializeObject(new { ID = id, Name = name }));
+
             return RedirectToAction("Index");
         }
 
         [HttpGet]
+        [LogAction(ActionDescription = "Müşteri Bilgilerini Güncelledi")]
         public ActionResult UpdateCustomer(int id)
         {
             var value = db.Customers.Find(id);

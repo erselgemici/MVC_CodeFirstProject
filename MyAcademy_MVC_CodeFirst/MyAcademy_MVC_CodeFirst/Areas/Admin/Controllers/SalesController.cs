@@ -1,5 +1,6 @@
 using MyAcademy_MVC_CodeFirst.Data.Context;
 using MyAcademy_MVC_CodeFirst.Data.Entities;
+using MyAcademy_MVC_CodeFirst.Filters;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ using System.Web.Mvc;
 
 namespace MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [Authorize]
+    [LogAction(ActionDescription = "Satış İşlemleri")]
     public class SalesController : Controller
     {
         AppDbContext db = new AppDbContext();
